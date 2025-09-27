@@ -31,7 +31,7 @@ jobs:
           restore-keys: |
             cache-caeb989
 
-      - name: Prime cache-caeb989
+      - name: prime-cache-caeb989
         run: |
           if [ "${{ steps.cache-deps.outputs.cache-hit }}" == "true" ]; then
             echo "Cache hit!"
