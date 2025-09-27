@@ -1,0 +1,52 @@
+name: CI with Dependency Caching
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # Step 3: Cache dependencies
+      - name: Cache pip dependencies
+        id: cache-deps
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: cache-caeb989
+          restore-keys: |
+            cache-caeb989
+
+      - name: Prime cache-caeb989
+        run: |
+          if [ "${{ steps.cache-deps.outputs.cache-hit }}" == "true" ]; then
+            echo "Cache hit!"
+          else
+            echo "Cache miss."
+          fi
+
+      # Step 4: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 5: Run tests (optional)
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          # python -m unittest discover tests
