@@ -18,7 +18,9 @@ jobs:
           key: cache-caeb989
       
       - name: Show cache hit/miss
-        run: echo "Cache hit: ${{ steps.cache-step.outputs.cache-hit }}"
+        run: echo "Cache hit: $CACHE_HIT"
+        env:
+          CACHE_HIT: ${{ steps.cache-step.outputs.cache-hit }}
 
       - name: Populate cache example
         run: |
